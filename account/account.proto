@@ -15,7 +15,7 @@ service Account {
   rpc UpdateAgency (UpdateAgencyRequest) returns (google.protobuf.Empty);
   rpc GetAgency (GetAgencyRequest) returns (GetAgencyResponse);
 
-  rpc GetUserInfo (GetAgencyRequest) returns (UserInfoResponse);
+  rpc GetUserInfo (GetUserInfoRequest) returns (UserInfoResponse);
   rpc UpdateProfile (UpdateProfileRequest) returns (google.protobuf.Empty);
   rpc ChangePassword (ChangePasswordRequest) returns (google.protobuf.Empty);
   rpc ForgotPassword (ForgotPasswordRequest) returns (google.protobuf.Empty);
