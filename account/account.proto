@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option go_package = "vovo/grpc-gen/account";
+option java_multiple_files = true;
+option java_package = "org.vovo.grpcgen.account";
+option java_outer_classname = "AccountProto";
+
+package account;
+
+service Account {
+
+  rpc CreateAgency (CreateAgencyRequest) returns (google.protobuf.Empty);
+  rpc UpdateAgency (UpdateAgencyRequest) returns (google.protobuf.Empty);
+  rpc GetAgency (GetAgencyRequest) returns (GetAgencyResponse);
+
+  rpc GetUserInfo (GetAgencyRequest) returns (UserInfoResponse);
+  rpc UpdateProfile (UpdateProfileRequest) returns (google.protobuf.Empty);
+  rpc ChangePassword (ChangePasswordRequest) returns (google.protobuf.Empty);
+  rpc ForgotPassword (ForgotPasswordRequest) returns (google.protobuf.Empty);
+  rpc ResetPassword (ResetPasswordRequest) returns (google.protobuf.Empty);
+  rpc LockUser (LockUserRequest) returns (google.protobuf.Empty);
+
+}
+
+message CreateAgencyRequest {
+  // information agency
+  string name = 1;
+  string address = 2;
+  string taxCode = 3;
+  string representativeName = 4;
+  // information agent root
+  string username = 5;
+  string password = 6;
+  string phoneVerify = 7;
+  string emailVerify = 8;
+  string questionSecurity = 9;
+  string answerSecurity = 10;
+}
+
+message UpdateAgencyRequest {
+  int64 agencyId = 1;
+  string name = 2;
+  string address = 3;
+  string taxCode = 4;
+  string representativeName = 5;
+  AgencyStatus status = 6;
+  string cardNumber = 7; // todo review
+}
+
+message GetAgencyRequest {
+  string name = 1;
+  string address = 2;
+  string taxCode = 3;
+  string representativeName = 4;
+  PageRequest page = 5;
+}
+
+message GetAgencyResponse {
+  PageResponse page = 1;
+  repeated Agency items = 2;
+}
+
+message Agency {
+  string name = 1;
+  string address = 2;
+  string taxCode = 3;
+  string representativeName = 4;
+  AgencyStatus status = 5;
+  string createdAt = 6;
+  string createdBy = 7;
+  string lastModifiedAt = 8;
+  string lastModifiedBy = 9;
+}
+
+message UpdateProfileRequest {
+  int64 userId = 1;
+  string firstName = 2;
+  string lastName = 3;
+  Gender gender = 4;
+  string phoneVerify = 5;
+  string emailVerify = 6;
+  string address = 7;
+  string dob = 8; // Date of birth
+}
+
+message ChangePasswordRequest {
+  int64 userId = 1;
+  string password = 2;
+  string newPassword = 3;
+}
+
+message ForgotPasswordRequest {
+  string username = 1;
+  string questionSecurity = 2;
+  string answerSecurity = 3;
+}
+
+message ResetPasswordRequest {
+  string resetCode = 1;
+  string password = 2;
+}
+
+message LockUserRequest {
+  int64 userId = 1;
+  string reason = 2;
+  string expiredAt = 3;
+}
+
+message GetUserInfoRequest {
+  int64 userId = 1;
+}
+
+message UserInfoResponse {
+  string username = 1;
+  string firstName = 2;
+  string lastName = 3;
+  Gender gender = 4;
+  string phoneVerify = 5;
+  string emailVerify = 6;
+  string address = 7;
+  string dob = 8; // Date of birth
+  string activatedAt = 9;
+}
+
+message PageRequest {
+  int32 pageNumber = 1;
+  int32 pageSize = 2;
+  Sort sort = 3;
+}
+
+message Sort {
+  string direction = 1;
+  repeated string properties = 2;
+}
+
+message PageResponse {
+  int64 totalItems = 1;
+  int32 pageNumber = 2;
+  int32 pageSize = 3;
+}
+
+enum AgencyStatus {
+  PENDING = 0;
+  ACTIVATED = 1;
+  DEACTIVATED = 2;
+}
+
+enum Gender {
+  MALE = 0;
+  FEMALE = 1;
+  UNKNOWN = 2;
+}
